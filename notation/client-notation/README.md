@@ -1,4 +1,4 @@
-# BPIUI
+# Credit UI
 
 ## Prerequisites
 
