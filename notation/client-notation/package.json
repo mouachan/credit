@@ -5,9 +5,9 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set PORT=3006 && gulp"
+    "start": "gulp"
   },
-  "author": "Rachid Snoussi",
+  "author": "Mourad Ouachani",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.26.7",
