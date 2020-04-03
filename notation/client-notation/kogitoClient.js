@@ -25,7 +25,7 @@ angular
       });
   })
 
-  .controller("start-process", function ($scope, $http) {
+  .controller("call-dmn", function ($scope, $http) {
     var rentab_13;
     var strfin_36;
     var rentab_38;
@@ -57,11 +57,8 @@ angular
       ENV.kieserver_host +
       ':' +
       ENV.kieserver_port +
-      ENV.kieserver_contextroot +
-      '/services/rest/server/containers/' +
-      ENV.kieserver_containerId_dmn + '/dmn',
-      '{"model-namespace":"' + ENV.model_namespace + '","model-name":"' + ENV.model_name + '","dmn-context":{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}}'
-      , { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } }
+      '/calcul_variables',
+      '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
       ).then(function (response) {
       console.log("response :" + response.status);
       $scope.greeting = response.data;
@@ -85,14 +82,14 @@ angular
        var rentab_13 = 9;
        var strfin_36 = 4;
   
-      var url = 'http://'+ENV.kieserver_host+':'+ENV.kieserver_port+'/kie-server/services/rest/server/containers/'+ENV.kieserver_containerId_dmn+'/dmn';
-      var data = '{"model-namespace":"http://www.trisotech.com/definitions/_09d0a20e-42a4-41d0-828c-11f8a2815f99","model-name":"Orientation","dmn-context":{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
+      var url = 'http://'+ENV.kieserver_host+':'+ENV.kieserver_port+'/notation';
+      var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
       //console.log(data);
-      var config = { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } };
+     // var config = { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } };
       $http.post(
           url,
-          data , 
-          config
+          data
+          // , config
       ).then(function (resp) {
         $scope.res = resp.data;
         console.log($scope.res);
