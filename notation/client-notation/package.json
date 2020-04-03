@@ -4,8 +4,16 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "postinstall": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape test/*.js | tap-spec",
+    "lint": "xo",
+    "security-check": "nsp check",
+    "coverage": "nyc npm test",
+    "coverage:html": "nyc npm test && nyc report --reporter=html",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "ci": "npm run lint && npm run coveralls",
+    "dependencyCheck": "szero . --ci",
+    "release": "standard-version -a",
+    "openshift": "nodeshift --imageTag=12.x --strictSSL=false --tryServiceAccount=false --configLocation /openshift.local.config/master/admin.kubeconfig",
     "start": "gulp"
   },
   "author": "Mourad Ouachani",
