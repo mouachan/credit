@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "preinstall":"npm install -g gulp-cli && npm link gulp --no-bin-links",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "gulp"
   },
