@@ -85,7 +85,7 @@ if [ "$NODE_ENV" != "production" ]; then
 	npm install
 
 else
-
+    #version qui marche
 	echo "---> Installing all dependencies"
 	#NODE_ENV=development 
     npm install --save-prod  --production=false gulp-uglify 
