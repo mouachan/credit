@@ -94,10 +94,10 @@ else
     npm install --global --production gulp-cli gulp-uglify
     npm link gulp
 
-	#npm run build --if-present
+	npm run build --if-present
 
 	#echo "---> Pruning the development dependencies"
-	#npm prune
+	npm prune
 
    
 
