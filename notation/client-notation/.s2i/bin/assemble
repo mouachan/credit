@@ -88,7 +88,7 @@ else
     #version qui marche
 	echo "---> Installing all dependencies"
 	#NODE_ENV=development 
-    #npm install --save-prod  --production=false gulp-uglify 
+    npm install --save-prod  --production=false gulp-uglify 
     npm install --global --save-prod --production=false gulp
 
 	#do not fail when there is no build script
