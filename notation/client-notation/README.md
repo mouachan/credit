@@ -1,4 +1,4 @@
-# Credit UI
+# Credit nodejs UI
 
 ## Prerequisites
 
