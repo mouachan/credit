@@ -3,6 +3,4 @@
 
 
 # original assemble
-which npm
-npm install -g gulp-cli
 /usr/libexec/s2i/assemble
