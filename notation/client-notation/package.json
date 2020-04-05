@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "preinstall":"npm install -g gulp",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "gulp",
+    "lint": "gulp tslint",
+    "preinstall": "gulp check",
+    "postinstall": "gulp postinstall",
     "start": "gulp"
   },
   "author": "Mourad Ouachani",
