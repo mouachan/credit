@@ -88,8 +88,7 @@ else
 
 	echo "---> Installing all dependencies"
 	#NODE_ENV=development 
-    npm install --global --production gulp 
-    npm install --global --production gulp-uglify
+    npm install --global --production 
 
 	#do not fail when there is no build script
 	#echo "---> Building in production mode"
@@ -100,6 +99,7 @@ else
 
     #link
     npm link gulp --no-bin-links
+    #npm link gulp-uglify --no-bin-links
    
 
 	# Clear the npm's cache and tmp directories only if they are not a docker volumes
