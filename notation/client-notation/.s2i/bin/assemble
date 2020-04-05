@@ -1,0 +1,8 @@
+# vim: set ft=sh:
+#!/bin/bash
+
+# original assemble
+/usr/libexec/s2i/assemble
+
+# gulp tasks
+node node_modules/gulp/bin/gulp.js inject
