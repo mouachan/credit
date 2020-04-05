@@ -3,6 +3,6 @@
 
 # original assemble
 /usr/libexec/s2i/assemble
-
+which node
 # gulp tasks
 node node_modules/gulp/bin/gulp.js inject
