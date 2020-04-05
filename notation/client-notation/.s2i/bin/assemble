@@ -77,8 +77,7 @@ if [ -z "$NODE_ENV" ]; then
     export NODE_ENV=production
   fi
 fi
-npm install -g gulp-cli
-npm link gulp --no-bin-links
+
 echo "=======> $NODE_ENV"
 if [ "$NODE_ENV" != "production" ]; then
 
@@ -92,15 +91,20 @@ else
 
 	#do not fail when there is no build script
 	echo "---> Building in production mode"
+    npm install -g gulp-cli
+    npm link gulp --no-bin-links
+    
 	npm run build --if-present
 
 	echo "---> Pruning the development dependencies"
 	npm prune
 
+   
+
 	# Clear the npm's cache and tmp directories only if they are not a docker volumes
 	NPM_CACHE=$(npm config get cache)
 	#if ! mountpoint $NPM_CACHE; then
-		#echo "---> Cleaning the npm cache $NPM_CACHE"
+		echo "---> Cleaning the npm cache $NPM_CACHE"
 		#As of npm@5 even the 'npm cache clean --force' does not fully remove the cache directory
 		# instead of $NPM_CACHE* use $NPM_CACHE/*.
 		# We do not want to delete .npmrc file.
