@@ -99,7 +99,7 @@ else
 	#npm prune
 
     #link
-    #npm link gulp --no-bin-links
+    npm link gulp --no-bin-links
     #npm link gulp-uglify --no-bin-links
    
 
