@@ -1,9 +1,8 @@
 # vim: set ft=sh:
 #!/bin/bash
 
-yum install node
 # original assemble
 /usr/libexec/s2i/assemble
 
-
+yum install node
 node node_modules/gulp/bin/gulp.js inject
