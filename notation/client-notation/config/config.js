@@ -1,5 +1,5 @@
 "use strict";
 
 var ENV = {
-  baseUrl: ""
+  baseUrl: "http://localhost:8083"
 };

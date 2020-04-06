@@ -1,7 +1,9 @@
 angular
   .module("demo", [])
   .controller("call-dmn", function ($scope, $http) {
-    var baseUrl = ENV.baseUrl;
+    var calcul_variables_endpoint = ENV.baseUrl+'/calcul_variables';
+    var notation_endpoint = ENV.baseUrl+'/Orientation';
+
     $scope.notation = [ENV.baseUrl];
     var rentab_13;
     var strfin_36;
@@ -12,26 +14,19 @@ angular
     $scope.bilan = { gg: 10, ga: 20, hp: 30, hq: 40, fl: 50, fm: 6, hn: 3, gg1: 4, ga1: 16, hp1: 12, hq1: 3, fl1: 2, fm1: 1, fl2: 7, fm2: 5, ga2: 2, hn2: 34, dl: 5, ee: 5 };
     $scope.contrepartie = { siren: "1013B" };
     $scope.startProcess = function () {
-      console.log("Call DMN ! ");
       var startTime = new Date().getTime();
       var elapsedTime = 0;
       $scope.rules = [];
       $scope.notation = [];
       $scope.variables = [];
-
-     console.log("base url : "+ baseUrl);
-
-    var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' } };
-
     $http.post( 
-      baseUrl +
-      '/calcul_variables',
+      calcul_variables_endpoint,
       '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
-      ,config).then(function (response) {
+      ).then(function (response) {
       console.log("response :" + response.status);
       $scope.greeting = response.data;
-      console.log("score.greeting "+$scope.greeting);
-      if ($scope.greeting.type == "SUCCESS") {
+      console.log("score.greeting "+$scope.greeting.value);
+      if (response.status == 200) {
         // approved
         console.log("approved");
         // change label to approved
@@ -47,32 +42,28 @@ angular
        var strfin_36 = 4;
        var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
 
-      console.log("====>"+data);
       $http.post(
-        baseURL+'/notation' ,
-          data,
-          config
-      ).then(function (resp) {
+        notation_endpoint,
+          data).then(function (resp) {
         $scope.res = resp.data;
         console.log($scope.res);
         elapsedTime = new Date().getTime() - startTime;
         var msgTime = "Temps d'execution : "+elapsedTime+" ms";
-       /* var scores = $scope.res.result["dmn-evaluation-result"]["dmn-context"].ScoreFinal;
+        var msgContainer = "Version 1.0";
+        $scope.version = "Version 1.0"
+        $scope.msgTime =elapsedTime;
+        var rules = $scope.res.rules;
+        var decision_notation = $scope.res.Notation;
+        var details = decision_notation.Detail;
         var var_0 = {type:"",valeur:0,score:0};
         var var_1 = {type:"",valeur:0,score:0};
-        var_0.type  = scores[0][1].type;
-        var_0.valeur = scores[0][1].valeur;
-        var_0.score = scores[0][0];
-        var_1.type  = scores[1][1].type;
-        var_1.valeur = scores[1][1].valeur;
-        var_1.score = scores[1][0];*/
-        //var msgContainer = "Version "+ENV.rules_version;
-       // $scope.version = msgContainer;
-        $scope.msgTime =elapsedTime;
-        //$scope.variables = [var_0,var_1];
-        var rules = $scope.res.rules;
-        console.log(scores);
-        var decision_notation = $scope.res.Notation;
+        var_0.type  = details[0][1].type;
+        var_0.valeur = details[0][1].valeur;
+        var_0.score = details[0][0];
+        var_1.type  = details[1][1].type;
+        var_1.valeur = details[1][1].valeur;
+        var_1.score = details[1][0];
+        $scope.variables = [var_0,var_1];
         var typeAiguillage =  decision_notation.TypeAiguillage;
         var decoupageSectoriel = decision_notation.DecoupageSectoriel;
         console.log(typeAiguillage);
@@ -92,9 +83,6 @@ angular
             var msgScoreFinal = "Score : "+scoreFinal;
             var msgNote = "Note : "+note;
             var msgOrientation = "Orientation : "+orientation;
-          
-
-           // $scope.applicationResultMessages = [msgContainer,msgType,msgDecp,msgScoreFinal,msgNote,msgOrientation];
             $scope.notation = [msgType,msgScoreFinal,msgNote,msgOrientation];
 
             for (var i = 0; i < rules.length; i++) {

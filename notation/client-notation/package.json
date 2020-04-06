@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp"
+    "start": "set PORT=3006 && gulp"
   },
   "author": "Mourad Ouachani",
   "license": "ISC",
