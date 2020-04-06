@@ -54,11 +54,38 @@ angular
           data,
           config
       ).then(function (resp) {
+        {
+          "Variables": [
+            {
+              "valeur": 9,
+              "type": "rentab_13"
+            },
+            {
+              "valeur": 4,
+              "type": "strfin_36"
+            }
+          ],
+          "ContrePartie": {
+            "DecoupageSectoriel": 1,
+            "TypeAiguillage": "MODELE_1"
+          },
+          "ScoreFinal": 1.05,
+          "Score": "function Score( CP, Var )",
+          "rules": [],
+          "Notation": {
+            "Score": 1.05,
+            "DecoupageSectoriel": 1,
+            "Note": "C",
+            "TypeAiguillage": "MODELE_1",
+            "Orientation": "Defavorable"
+          },
+          "CodeNaf": "1013B"
+        }
         $scope.res = resp.data;
         console.log($scope.res);
-/*        elapsedTime = new Date().getTime() - startTime;
+        elapsedTime = new Date().getTime() - startTime;
         var msgTime = "Temps d'execution : "+elapsedTime+" ms";
-        var scores = $scope.res.result["dmn-evaluation-result"]["dmn-context"].ScoreFinal;
+       /* var scores = $scope.res.result["dmn-evaluation-result"]["dmn-context"].ScoreFinal;
         var var_0 = {type:"",valeur:0,score:0};
         var var_1 = {type:"",valeur:0,score:0};
         var_0.type  = scores[0][1].type;
@@ -66,21 +93,14 @@ angular
         var_0.score = scores[0][0];
         var_1.type  = scores[1][1].type;
         var_1.valeur = scores[1][1].valeur;
-        var_1.score = scores[1][0];
-        var msgContainer = "Version "+ENV.rules_version;
-        $scope.version = msgContainer;
+        var_1.score = scores[1][0];*/
+        //var msgContainer = "Version "+ENV.rules_version;
+       // $scope.version = msgContainer;
         $scope.msgTime =elapsedTime;
-        $scope.variables = [var_0,var_1];
-        var rules = $scope.res.result["dmn-evaluation-result"]["dmn-context"].rules;
-     
-
-
+        //$scope.variables = [var_0,var_1];
+        var rules = $scope.res.rules;
         console.log(scores);
-        var decision_notation = $scope.res.result["dmn-evaluation-result"]["dmn-context"].Notation;
-
-
-
-        
+        var decision_notation = $scope.res.Notation;
         var typeAiguillage =  decision_notation.TypeAiguillage;
         var decoupageSectoriel = decision_notation.DecoupageSectoriel;
         console.log(typeAiguillage);
@@ -121,7 +141,7 @@ angular
             $scope.notation = ["Non Elligibile à la notation"];
             $scope.rules.push(rules[0]);
             console.log($scope.applicationResultMessages);
-        }*/
+        }
 
 
       });
