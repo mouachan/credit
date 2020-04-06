@@ -1,30 +1,5 @@
 angular
   .module("demo", [])
-  .controller("kie-server-info", function ($scope, $http) {
-    $http
-      .get(
-        "http://" +
-        ENV.kieserver_host +
-        ":" +
-        ENV.kieserver_port +
-        ENV.kierserver_contextroot +
-        "/services/rest/server",
-        {
-          headers: {
-            accept: "application/json",
-            "content-type": "application/json",
-            Authorization:
-              "Basic " + btoa(ENV.kieserver_user + ":" + ENV.kieserver_password)
-          }
-        }
-      )
-      .then(function (response) {
-        $scope.greeting = response.data;
-        $scope.info = $scope.greeting.result["kie-server-info"];
-        console.log($scope.result);
-      });
-  })
-
   .controller("call-dmn", function ($scope, $http) {
     var rentab_13;
     var strfin_36;
@@ -35,28 +10,18 @@ angular
     $scope.bilan = { gg: 10, ga: 20, hp: 30, hq: 40, fl: 50, fm: 6, hn: 3, gg1: 4, ga1: 16, hp1: 12, hq1: 3, fl1: 2, fm1: 1, fl2: 7, fm2: 5, ga2: 2, hn2: 34, dl: 5, ee: 5 };
     $scope.contrepartie = { siren: "1013B" };
     $scope.startProcess = function () {
-      console.log("Start Process ! ");
-      console.log("KIE-Server host: " + ENV.kieserver_host);
-      console.log("KIE-Server port:" + ENV.kieserver_port);
-      console.log("KIE-Server ContextRoot: " + ENV.kieserver_contextroot);
-      console.log("KIE-Server containerId: " + ENV.kieserver_containerId_dmn);
-      console.log("User: " + ENV.kieserver_user);
-      console.log("Password: " + ENV.kieserver_password);
+      console.log("Call DMN ! ");
       var startTime = new Date().getTime();
       var elapsedTime = 0;
       $scope.rules = [];
       $scope.notation = [];
       $scope.variables = [];
 
-      // votre code à mesurer ici
-    var msgContainer = "Version des règles : "+ENV.rules_version;
+      console.log("base url : "+baseURL);
 
 
-    $http.post(
-      'http://' +
-      ENV.kieserver_host +
-      ':' +
-      ENV.kieserver_port +
+    $http.post( 
+      baseUrl +
       '/calcul_variables',
       '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
       ).then(function (response) {
@@ -81,8 +46,7 @@ angular
 
        var rentab_13 = 9;
        var strfin_36 = 4;
-  
-      var url = 'http://'+ENV.kieserver_host+':'+ENV.kieserver_port+'/notation';
+      var url = baseURL+"/notation" 
       var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
       //console.log(data);
      // var config = { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } };

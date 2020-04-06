@@ -1,0 +1,15 @@
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-frontend-config"
+    labels:
+      app: "${APPLICATION_NAME}"
+      container: httpd
+  data:
+    config.js: |-
+      define(function(require, exports, module) {
+        module.exports = {
+          // The base URL of the Backend API
+          baseURL: "http://dmn-svc-notation-credit.apps.ocp4.ouachani.net/"
+        };
+      });
