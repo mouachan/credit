@@ -1,7 +1,8 @@
 angular
   .module("demo", [])
   .controller("call-dmn", function ($scope, $http) {
-    var rentab_13;
+    $scope.notation = [ENV.baseUrl];
+   /* var rentab_13;
     var strfin_36;
     var rentab_38;
     $scope.applicationResult = "";
@@ -17,7 +18,7 @@ angular
       $scope.notation = [];
       $scope.variables = [];
 
-      console.log("base url : "+baseURL);
+     console.log("base url : "+ENV.baseURL);
 
 
     $http.post( 
@@ -107,20 +108,6 @@ angular
            // $scope.applicationResultMessages = [msgContainer,msgType,msgDecp,msgScoreFinal,msgNote,msgOrientation];
             $scope.notation = [msgType,msgScoreFinal,msgNote,msgOrientation];
 
-           
-
-           /*for (var i = 0; i < scores.length; i++) {
-               var msgType = "Type : "+scores[i][1].type;
-               var msgValeur = "Valeur : "+scores[i][1].valeur;
-               var msgScore = "Score : "+scores[i][0];
-               
-              $scope.applicationResultMessages.push(msgType);
-              $scope.applicationResultMessages.push(msgValeur);
-              $scope.applicationResultMessages.push(msgScore);
-
-            }
-            $scope.applicationResultMessages.push(msgTime);*/
-
             for (var i = 0; i < rules.length; i++) {
               $scope.rules.push(rules[i]);
              }
@@ -143,4 +130,6 @@ angular
       });
     }
   });
-}})
+}*/
+
+})
