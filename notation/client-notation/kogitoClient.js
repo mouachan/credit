@@ -21,7 +21,7 @@ angular
 
 
     $http.post( 
-      baseUrl +
+      ENV.baseUrl +
       '/calcul_variables',
       '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
       ).then(function (response) {
@@ -46,7 +46,7 @@ angular
 
        var rentab_13 = 9;
        var strfin_36 = 4;
-      var url = baseURL+"/notation" 
+      var url = ENV.baseURL+"/notation" 
       var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
       //console.log(data);
      // var config = { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } };
