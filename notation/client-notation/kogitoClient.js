@@ -20,12 +20,13 @@ angular
 
      console.log("base url : "+ENV.baseURL);
 
+    var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' } };
 
     $http.post( 
       ENV.baseUrl +
       '/calcul_variables',
       '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
-      ).then(function (response) {
+      ,config).then(function (response) {
       console.log("response :" + response.status);
       $scope.greeting = response.data;
       // $scope.info = $scope.greeting.result["kie-server-info"];
@@ -50,11 +51,10 @@ angular
       var url = ENV.baseURL+"/notation" 
       var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
       //console.log(data);
-     // var config = { headers: { 'Authorization': 'Basic cGFtQWRtaW46cGFtQWRtaW4xIQ==' } };
       $http.post(
           url,
           data
-          // , config
+          , config
       ).then(function (resp) {
         $scope.res = resp.data;
         console.log($scope.res);
