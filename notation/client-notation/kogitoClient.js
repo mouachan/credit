@@ -2,7 +2,7 @@ angular
   .module("demo", [])
   .controller("call-dmn", function ($scope, $http) {
     $scope.notation = [ENV.baseUrl];
-   /* var rentab_13;
+    var rentab_13;
     var strfin_36;
     var rentab_38;
     $scope.applicationResult = "";
@@ -130,6 +130,6 @@ angular
       });
     }
   });
-}*/
+}
 
 })
