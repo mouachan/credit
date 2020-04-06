@@ -54,33 +54,6 @@ angular
           data,
           config
       ).then(function (resp) {
-        {
-          "Variables": [
-            {
-              "valeur": 9,
-              "type": "rentab_13"
-            },
-            {
-              "valeur": 4,
-              "type": "strfin_36"
-            }
-          ],
-          "ContrePartie": {
-            "DecoupageSectoriel": 1,
-            "TypeAiguillage": "MODELE_1"
-          },
-          "ScoreFinal": 1.05,
-          "Score": "function Score( CP, Var )",
-          "rules": [],
-          "Notation": {
-            "Score": 1.05,
-            "DecoupageSectoriel": 1,
-            "Note": "C",
-            "TypeAiguillage": "MODELE_1",
-            "Orientation": "Defavorable"
-          },
-          "CodeNaf": "1013B"
-        }
         $scope.res = resp.data;
         console.log($scope.res);
         elapsedTime = new Date().getTime() - startTime;
