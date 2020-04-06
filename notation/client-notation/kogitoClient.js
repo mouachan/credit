@@ -20,7 +20,7 @@ angular
 
      console.log("base url : "+ENV.baseURL);
 
-    var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' } };
+    var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' } };
 
     $http.post( 
       ENV.baseUrl +
@@ -29,10 +29,7 @@ angular
       ,config).then(function (response) {
       console.log("response :" + response.status);
       $scope.greeting = response.data;
-      // $scope.info = $scope.greeting.result["kie-server-info"];
-      console.log($scope.greeting);
-      console.log($scope.greeting.result["dmn-evaluation-result"]["dmn-context"]["rentab_13"]);
-      //var approved =  $scope.greeting.result["dmn-evaluation-result"].results[0].value["com.redhat.demo.qlb.loan_application.model.Loan"].approved;
+      console.log("score.greeting "+$scope.greeting);
       if ($scope.greeting.type == "SUCCESS") {
         // approved
         console.log("approved");
@@ -41,10 +38,9 @@ angular
         $scope.applicationResult = "Variables Calculées";
         $scope.applicationResultIcon = "pficon pficon-ok";
         // add comment to message
-        var result = $scope.greeting.result["dmn-evaluation-result"];
-         // rentab_13 = $scope.greeting.result["dmn-evaluation-result"]["dmn-context"]["rentab_13"];
-        // strfin_36 = $scope.greeting.result["dmn-evaluation-result"]["dmn-context"]["strfin_36"];
-        // rentab_38 = $scope.greeting.result["dmn-evaluation-result"]["dmn-context"]["rentab_38"];
+        rentab_13 = $scope.greeting.rentab_13;
+        strfin_36 = $scope.greeting.strfin_36;
+        rentab_38 = $scope.greeting.rentab_38;
 
        var rentab_13 = 9;
        var strfin_36 = 4;
@@ -58,8 +54,7 @@ angular
       ).then(function (resp) {
         $scope.res = resp.data;
         console.log($scope.res);
-        //console.log($scope.res.result["dmn-evaluation-result"]["dmn-context"]["contrepartie"]);
-        elapsedTime = new Date().getTime() - startTime;
+/*        elapsedTime = new Date().getTime() - startTime;
         var msgTime = "Temps d'execution : "+elapsedTime+" ms";
         var scores = $scope.res.result["dmn-evaluation-result"]["dmn-context"].ScoreFinal;
         var var_0 = {type:"",valeur:0,score:0};
@@ -124,7 +119,7 @@ angular
             $scope.notation = ["Non Elligibile à la notation"];
             $scope.rules.push(rules[0]);
             console.log($scope.applicationResultMessages);
-        }
+        }*/
 
 
       });
