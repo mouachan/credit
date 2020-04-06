@@ -11,7 +11,6 @@ angular
     $scope.displayResults = "display: none;";
     $scope.bilan = { gg: 10, ga: 20, hp: 30, hq: 40, fl: 50, fm: 6, hn: 3, gg1: 4, ga1: 16, hp1: 12, hq1: 3, fl1: 2, fm1: 1, fl2: 7, fm2: 5, ga2: 2, hn2: 34, dl: 5, ee: 5 };
     $scope.contrepartie = { siren: "1013B" };
-    var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
     $scope.startProcess = function () {
       console.log("Call DMN ! ");
       var startTime = new Date().getTime();
@@ -21,7 +20,6 @@ angular
       $scope.variables = [];
 
      console.log("base url : "+ baseUrl);
-     console.log("data "+ data);
 
     var config = { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept' } };
 
@@ -47,8 +45,9 @@ angular
 
        var rentab_13 = 9;
        var strfin_36 = 4;
+       var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
 
-      console.log(data);
+      console.log("====>"+data);
       $http.post(
         baseURL+'/notation' ,
           data,
