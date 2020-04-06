@@ -45,13 +45,13 @@ angular
 
        var rentab_13 = 9;
        var strfin_36 = 4;
-       
+
       var data = '{"CodeNaf":"'+$scope.contrepartie.siren+'","Variables": [{ "valeur":'+ rentab_13 +',"type": "rentab_13"},{"valeur":'+strfin_36+',"type": "strfin_36"}],"rules":[]}}';
-      //console.log(data);
+      console.log(data);
       $http.post(
-        baseURL+"/notation" ,
-          data
-          , config
+        baseURL+'/notation' ,
+          data,
+          config
       ).then(function (resp) {
         $scope.res = resp.data;
         console.log($scope.res);
