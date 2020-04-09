@@ -2,6 +2,7 @@
 package org.redhat.mongodb.codec;
 
 import org.redhat.mongodb.CompanyInfo;
+// import org.redhat.mongodb.notation.Notation;
 
 import com.mongodb.MongoClientSettings;
 import org.bson.Document;
@@ -27,15 +28,17 @@ public class CompanyCodec implements CollectibleCodec<CompanyInfo> {
     @Override
     public void encode(BsonWriter writer, CompanyInfo companyInfo, EncoderContext encoderContext) {
         Document doc = new Document();
-        doc.put("statusRcs", companyInfo.getStatusRCS());
+        doc.put("statusRcs", companyInfo.getStatusRcs());
         doc.put("siren", companyInfo.getSiren());
         doc.put("siret", companyInfo.getSiret());
         doc.put("denomination", companyInfo.getDenomination());
         doc.put("address",companyInfo.getaddress());
         doc.put("type", companyInfo.getType());                
         doc.put("tva", companyInfo.getTva());
-        doc.put("immatricualtionDate", companyInfo.getImmatriculationDate());
+        doc.put("immatriculationDate", companyInfo.getImmatriculationDate());
         doc.put("updateDate", companyInfo.getUpdateDate());
+        // if(companyInfo.getNote() != null)
+        //     doc.put("note",companyInfo.getNote());
         documentCodec.encode(writer, doc, encoderContext);
     }
 
@@ -69,7 +72,7 @@ public class CompanyCodec implements CollectibleCodec<CompanyInfo> {
         // if (document.getString("id") != null) {
         //     companyInfo.setId(document.getString("id"));
         // }
-        companyInfo.setStatusRCS(document.getString("statusRCS"));
+        companyInfo.setStatusRcs(document.getString("statusRcs"));
         companyInfo.setSiren(document.getString("siren"));
         companyInfo.setSiret(document.getString("siret"));
         companyInfo.setDenomination(document.getString("denomination"));
@@ -78,6 +81,9 @@ public class CompanyCodec implements CollectibleCodec<CompanyInfo> {
         companyInfo.setType(document.getString("type"));
         companyInfo.setUpdateDate(document.getDate("updateDate"));
         companyInfo.setImmatriculationDate(document.getDate("immatriculationDate"));
+        // if(document.get("note") != null ){
+        //     companyInfo.setNote((Notation)document.get("note"));
+        // }
      
         return companyInfo;
     }

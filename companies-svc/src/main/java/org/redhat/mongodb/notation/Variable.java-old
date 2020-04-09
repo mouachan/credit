@@ -1,0 +1,61 @@
+
+package org.redhat.mongodb.notation;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import org.bson.codecs.pojo.annotations.BsonProperty;
+
+import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import org.bson.Document;
+
+
+@MongoEntity(collection = "companyInfo")
+public class Variable extends PanacheMongoEntity {
+    private String id;
+    private String type;
+    private String value;
+    private double score;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "Variable [id=" + id + ", score=" + score + ", type=" + type + ", value=" + value + "]";
+    }
+   
+
+}

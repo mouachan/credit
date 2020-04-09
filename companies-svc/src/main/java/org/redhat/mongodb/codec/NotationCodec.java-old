@@ -1,0 +1,90 @@
+
+package org.redhat.mongodb.codec;
+
+import org.redhat.mongodb.notation.Notation;
+import org.redhat.mongodb.notation.Variable;
+
+import com.mongodb.MongoClientSettings;
+import org.bson.Document;
+import org.bson.BsonWriter;
+import org.bson.BsonValue;
+import org.bson.BsonReader;
+import org.bson.BsonString;
+import org.bson.codecs.Codec;
+import org.bson.codecs.CollectibleCodec;
+import org.bson.codecs.DecoderContext;
+import org.bson.codecs.EncoderContext;
+
+import java.util.List;
+import java.util.UUID;
+
+public class NotationCodec implements CollectibleCodec<Notation> {
+
+    private final Codec<Document> documentCodec;
+
+    public NotationCodec() {
+        this.documentCodec = MongoClientSettings.getDefaultCodecRegistry().get(Document.class);
+    }
+
+    @Override
+    public void encode(BsonWriter writer, Notation notation, EncoderContext encoderContext) {
+        Document doc = new Document();
+        
+        doc.put("version", notation.getVersion());
+        doc.put("executionTime", notation.getExecutionTime());
+        doc.put("score", notation.getScore());
+        doc.put("note", notation.getNote());
+        // if(notation.getRules() != null)
+        // doc.put("rules", notation.getRules());
+        // if(notation.getVariables() != null)
+        //     doc.put("variables",notation.getVariables());
+        documentCodec.encode(writer, doc, encoderContext);
+    }
+
+    @Override
+    public Class<Notation> getEncoderClass() {
+        return Notation.class;
+    }
+
+    @Override
+    public Notation generateIdIfAbsentFromDocument(Notation document) {
+        if (!documentHasId(document)) {
+            document.setId(UUID.randomUUID().toString());
+        }
+        return document;
+    }
+
+    @Override
+    public boolean documentHasId(Notation document) {
+        return document.getId() != null;
+    }
+
+    @Override
+    public BsonValue getDocumentId(Notation document) {
+        return new BsonString(document.getId());
+    }
+
+    @Override
+    public Notation decode(BsonReader reader, DecoderContext decoderContext) {
+        Document document = documentCodec.decode(reader, decoderContext);
+        Notation notation = new Notation();
+        // if (document.getString("id") != null) {
+        //     notation.setId(document.getString("id"));
+        // }
+        notation.setVersion(document.getDouble("version"));
+        notation.setExecutionTime(document.getDouble("executionTime"));
+        notation.setExecutionDate(document.getDate("executionDate"));
+        notation.setScore(document.getDouble("score"));
+        notation.setNote(document.getString("note"));
+
+       
+        // if(document.get("rules") != null ){
+        //     notation.setRules((List<String>)document.get("rules"));
+        // }
+        // if(document.get("variables") != null ){
+        //     notation.setVariables((List<Variable>)document.get("variable"));
+        // }
+     
+        return notation;
+    }
+}

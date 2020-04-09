@@ -21,7 +21,7 @@ public class ReactiveCompanyService {
     public Uni<List<CompanyInfo>> list() {
         return getCollection().find().map(doc -> {
             CompanyInfo companyInfo = new CompanyInfo();
-            companyInfo.setStatusRCS(doc.getString("statusRCS"));
+            companyInfo.setStatusRcs(doc.getString("statusRcs"));
             companyInfo.setSiren(doc.getString("siren"));
             companyInfo.setSiret(doc.getString("siret"));
             companyInfo.setDenomination(doc.getString("denomination"));
@@ -36,14 +36,14 @@ public class ReactiveCompanyService {
 
     public Uni<Void> add(CompanyInfo companyInfo) {
         Document document = new Document()
-        .append("statusRcs", companyInfo.getStatusRCS())
+                .append("statusRcs", companyInfo.getStatusRcs())
                 .append("siren", companyInfo.getSiren())
                 .append("siret", companyInfo.getSiret())
                 .append("denomination", companyInfo.getDenomination())
                 .append("address",companyInfo.getaddress())
                 .append("type", companyInfo.getType())                
                 .append("tva", companyInfo.getTva())
-                .append("immatricualtionDate", companyInfo.getImmatriculationDate())
+                .append("immatriculationDate", companyInfo.getImmatriculationDate())
                 .append("updateDate", companyInfo.getUpdateDate());
         return getCollection().insertOne(document);
     }

@@ -1,14 +1,24 @@
 package org.redhat.mongodb;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
+// import org.redhat.mongodb.notation.Notation;
 
-public class CompanyInfo {
+import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import org.bson.Document;
+
+
+
+@MongoEntity(collection = "companyInfo")
+public class CompanyInfo extends PanacheMongoEntity {
 
     private String id;
-    private String statusRCS;
+    private String statusRcs;
     private String denomination;
     private String siret;
     private String siren;
@@ -19,6 +29,7 @@ public class CompanyInfo {
     private Date immatriculationDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date updateDate;
+    // private Notation note;
 
     public CompanyInfo(){
 
@@ -28,10 +39,10 @@ public class CompanyInfo {
         this.siren = siren;
     }
 
-    public CompanyInfo(String id, String statusRCS, String denomination, String siret, String siren, String address, String tva,
+    public CompanyInfo(String id, String statusRcs, String denomination, String siret, String siren, String address, String tva,
             String type, Date immatriculationDate, Date updateDate) {
         this.id = id;        
-        this.statusRCS = statusRCS;
+        this.statusRcs = statusRcs;
         this.denomination = denomination;
         this.siret = siret;
         this.siren = siren;
@@ -40,22 +51,29 @@ public class CompanyInfo {
         this.type = type;
         this.immatriculationDate = immatriculationDate;
         this.updateDate = updateDate;
+        // this.note = note;
     }
 
-    
+   
 
-    /**
-     * @return Date return the statusRCS
-     */
-    public String getStatusRCS() {
-        return statusRCS;
+    public static CompanyInfo findBySiren(String siren){
+        Document document = new Document()
+        .append("siren", siren); 
+       return  (CompanyInfo)find(document).firstResult();
     }
 
     /**
-     * @param statusRCS the statusRCS to set
+     * @return Date return the statusRcs
      */
-    public void setStatusRCS(String statusRCS) {
-        this.statusRCS = statusRCS;
+    public String getStatusRcs() {
+        return statusRcs;
+    }
+
+    /**
+     * @param statusRcs the statusRcs to set
+     */
+    public void setStatusRcs(String statusRcs) {
+        this.statusRcs = statusRcs;
     }
 
     /**
@@ -173,8 +191,8 @@ public class CompanyInfo {
     @Override
     public String toString() {
         return "CompanyInfo [Id="+id+ ", address=" + address + ", denomination=" + denomination + ", immatriculationDate="
-                + immatriculationDate + ", siren=" + siren + ", siret=" + siret + ", statusRCS=" + statusRCS + ", tva="
-                + tva + ", type=" + type + ", updateDate=" + updateDate + "]";
+                + immatriculationDate + ", siren=" + siren + ", siret=" + siret + ", statusRcs=" + statusRcs + ", tva="
+                + tva + ", type=" + type + ", updateDate=" + updateDate +"]";
     }
 
     @Override
@@ -187,22 +205,24 @@ public class CompanyInfo {
         result = prime * result + ((immatriculationDate == null) ? 0 : immatriculationDate.hashCode());
         result = prime * result + ((siren == null) ? 0 : siren.hashCode());
         result = prime * result + ((siret == null) ? 0 : siret.hashCode());
-        result = prime * result + ((statusRCS == null) ? 0 : statusRCS.hashCode());
+        result = prime * result + ((statusRcs == null) ? 0 : statusRcs.hashCode());
         result = prime * result + ((tva == null) ? 0 : tva.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((updateDate == null) ? 0 : updateDate.hashCode());
+        // result = prime * result + ((note == null) ? 0 : note.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
+        CompanyInfo other = (CompanyInfo) obj;
+
         if (this == obj)
             return true;
         if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CompanyInfo other = (CompanyInfo) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -231,10 +251,10 @@ public class CompanyInfo {
                 return false;
         } else if (!siret.equals(other.siret))
             return false;
-        if (statusRCS == null) {
-            if (other.statusRCS != null)
+        if (statusRcs == null) {
+            if (other.statusRcs != null)
                 return false;
-        } else if (!statusRCS.equals(other.statusRCS))
+        } else if (!statusRcs.equals(other.statusRcs))
             return false;
         if (tva == null) {
             if (other.tva != null)
@@ -268,5 +288,34 @@ public class CompanyInfo {
     public void setId(String id) {
         this.id = id;
     }
+
+
+    /**
+     * @return String return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    // /**
+    //  * @return Notation return the note
+    //  */
+    // public Notation getNote() {
+    //     return note;
+    // }
+
+    // /**
+    //  * @param note the note to set
+    //  */
+    // public void setNote(Notation note) {
+    //     this.note = note;
+    // }
 
 }
