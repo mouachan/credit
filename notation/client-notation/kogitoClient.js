@@ -37,21 +37,21 @@ angular
     var calcul_variables_endpoint = ENV.baseUrl + '/calcul_variables';
     var notation_endpoint = ENV.baseUrl + '/Orientation';
 
-    $scope.notation = [ENV.baseUrl];
+    $scope.notation = [];
     var rentab_13;
     var strfin_36;
     var rentab_38;
     $scope.applicationResult = "";
     $scope.applicationResultIcon = "";
     $scope.displayResults = "display: none;";
-    $scope.bilan = { gg: 10, ga: 20, hp: 30, hq: 40, fl: 50, fm: 6, hn: 3, gg1: 4, ga1: 16, hp1: 12, hq1: 3, fl1: 2, fm1: 1, fl2: 7, fm2: 5, ga2: 2, hn2: 34, dl: 5, ee: 5 };
+    //$scope.bilan = { gg: null, ga: 20, hp: 30, hq: 40, fl: 50, fm: 6, hn: 3, gg1: 4, ga1: 16, hp1: 12, hq1: 3, fl1: 2, fm1: 1, fl2: 7, fm2: 5, ga2: 2, hn2: 34, dl: 5, ee: 5 };
     $scope.contrepartie = { siren: "1013B" };
 
 
 
     $scope.search = function () {
       var search_endpoint = ENV.companiesUrl + '/companies/search/' + $scope.company.id;
-
+      $scope.contrepartie.siren = $scope.company.id;
       console.log("URL " + search_endpoint);
       $http({
         method: 'GET',
@@ -78,7 +78,31 @@ angular
         $scope.form.denomination = "";
       }
     }
+    function createPayloadBilan(bilan){
+      var payload ='{"bilan" : {';
+      if(bilan.gg != null) payload+="\"gg\":" + bilan.gg;
+      if(bilan.ga != null) payload+=",\"ga\":" + bilan.ga;
+      if(bilan.hp != null) payload+=",\"hp\":" + bilan.hp;
+      if(bilan.hq != null) payload+=",\"hq\":" + bilan.hq;
+      if(bilan.hn != null) payload+=",\"hn\":" + bilan.hn;
+      if(bilan.fl != null) payload+=",\"fl\":" + bilan.fl;
+      if(bilan.fm != null) payload+=",\"fm\":" + bilan.fm;
+      if(bilan.dl != null) payload+=",\"dl\":" + bilan.dl;
+      if(bilan.ee != null) payload+=",\"ee\":" + bilan.ee;
+      payload+='}}';
+      return payload
+    }
+    function createPayloadNotation(siren,variables){
+      var payload = '{"CodeNaf":"' + siren + '","Variables": [';
+      if(variables.rentab_13!=null) payload+='{ "valeur":' + variables.rentab_13 + ',"type": "rentab_13"}';
+      if(variables.rentab_38!=null) payload+=',{ "valeur":' + variables.rentab_138+ ',"type": "rentab_38"}';
+      if(variables.strfin_36!=null) payload+=',{ "valeur":' + variables.strfin_36 + ',"type": "strfin_36"}';
+      payload+='],"rules":[]}}';
+      return payload;
+    }
+    //var data = '{"CodeNaf":"' + $scope.contrepartie.siren + '","Variables": [{ "valeur":' + rentab_13 + ',"type": "rentab_13"},{"valeur":' + strfin_36 + ',"type": "strfin_36"}],"rules":[]}}';
 
+    //        '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
 
     $scope.startProcess = function () {
       var startTime = new Date().getTime();
@@ -86,32 +110,27 @@ angular
       $scope.rules = [];
       $scope.notation = [];
       $scope.variables = [];
+      var payloadBilan = createPayloadBilan($scope.bilan);
+      console.log(payloadBilan);
       $http.post(
         calcul_variables_endpoint,
-        '{"bilan" : {"gg":' + $scope.bilan.gg + ',"ga":' + $scope.bilan.ga + ',"hp":' + $scope.bilan.hp + ',"hq":' + $scope.bilan.hq + ',"fl":' + $scope.bilan.fl + ',"fm":' + $scope.bilan.fm + ',"gg1":' + $scope.bilan.gg1 + ',"ga1":' + $scope.bilan.ga1 + ',"hp1":' + $scope.bilan.hp1 + ',"hq1":' + $scope.bilan.hq1 + ',"fl1":' + $scope.bilan.fl1 + ',"fm1":' + $scope.bilan.fm1 + ',"hn":' + $scope.bilan.hn + ',"ga2":' + $scope.bilan.ga2 + ',"hn2":' + $scope.bilan.hn2 + ',"fl2":' + $scope.bilan.fl2 + ',"fm2":' + $scope.bilan.fm2 + ',"dl":' + $scope.bilan.dl + ',"ee":' + $scope.bilan.ee + '}}'
+        payloadBilan
       ).then(function (response) {
         console.log("response :" + response.status);
         $scope.greeting = response.data;
-        console.log("score.greeting " + $scope.greeting.value);
         if (response.status == 200) {
           // approved
-          console.log("approved");
+          console.log($scope.greeting);
           // change label to approved
           $scope.displayResults = "";
           $scope.applicationResult = "Variables Calculées";
           $scope.applicationResultIcon = "pficon pficon-ok";
           // add comment to message
-          rentab_13 = $scope.greeting.rentab_13;
-          strfin_36 = $scope.greeting.strfin_36;
-          rentab_38 = $scope.greeting.rentab_38;
-
-          var rentab_13 = 9;
-          var strfin_36 = 4;
-          var data = '{"CodeNaf":"' + $scope.contrepartie.siren + '","Variables": [{ "valeur":' + rentab_13 + ',"type": "rentab_13"},{"valeur":' + strfin_36 + ',"type": "strfin_36"}],"rules":[]}}';
+         var payloadNotation = createPayloadNotation($scope.contrepartie.siren,$scope.greeting);
 
           $http.post(
             notation_endpoint,
-            data).then(function (resp) {
+            payloadNotation).then(function (resp) {
               $scope.res = resp.data;
               console.log($scope.res);
               elapsedTime = new Date().getTime() - startTime;

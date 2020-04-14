@@ -3,17 +3,17 @@
   // injection of environment variables is not done so set them here...
   def sourceRef = "master"
   def sourceUrl = "https://github.com/mouachan/credit"
-  def githubId = "appfinment-cicd-github"
+  def githubId = "github"
   def devProject = "credit"
-  def applicationName = "dmn-svc-notation"
+  def applicationName = "dmn-svc-notation-app"
   def artifact = "dmn-svc-notation"
   def version = "1.0.0"
-  def contextDirPath = "/notation/dmn-svc-notation"
+  def contextDirPath = "notation/dmn-svc-notation"
 // namespaces
-def namespace_dev = "notation-dev"
-def namespace_acp = "notation-acp"
-def namespace_prd = "notation-prd"		
-def appname = "dmn-svc-notation"
+def namespace_dev = "credit-dev"
+def namespace_acp = "credit-acp"
+def namespace_prd = "credit-prd"		
+def appname = "dmn-svc-notation-app"
 def image_version = "${env.IMAGE_VERSION}"
 def registry = "docker-registry.default.svc:5000"
 
@@ -31,7 +31,7 @@ def generateConfigMap(namespace) {
 def setEnvVars(namespace){
     def var1
     
-    if ( "${namespace}" == "notation-dev") {
+    if ( "${namespace}" == "credit-dev") {
         var1=''
     } else {
         // at the moment we keep the same info as dev
@@ -50,11 +50,10 @@ node('maven') {
     sh "${mvnCmd} test"
   stage 'deployInDev'
       echo "building container image"
-
       sh "${mvnCmd} fabric8:build -Dmaven.test.skip -Dimage.version=latest -Dfabric8.namespace=${namespace_dev}"
       sh "oc delete cm ${artifact} -n ${namespace_dev} --ignore-not-found=true"
-	  sh "oc create cm ${artifact} --from-file=src/main/resources/application.properties -n ${namespace_dev}"
-      sh "oc process openidconnect-template -n appfinment-cicd --param APP_NAME=${artifact} --param APP_VERSION=${version} --param IMAGE_VERSION=${image_version} | oc apply -n ${namespace_dev} -f -"
+	    sh "oc create cm ${artifact} --from-file=src/main/resources/application.properties -n ${namespace_dev}"
+      sh "oc process openidconnect-template -n notation-cicd --param APP_NAME=${artifact} --param APP_VERSION=${version} --param IMAGE_VERSION=${image_version} | oc apply -n ${namespace_dev} -f -"
       echo "configuring Red Hat SSO parameters"
       setEnvVars(namespace_dev)
       echo "promoting image"
@@ -64,7 +63,7 @@ node('maven') {
 	echo "generating ConfigMap"
 		 sh "oc delete cm ${artifact} -n ${namespace_acp} --ignore-not-found=true"
 	   sh "oc create cm ${artifact} --from-file=src/main/resources/application.properties -n ${namespace_acp}"
-     sh "oc process openidconnect-template -n appfinment-cicd --param APP_NAME=${artifact} --param APP_VERSION=${version} --param IMAGE_VERSION=${image_version} | oc apply -n ${namespace_acp} -f -"
+     sh "oc process openidconnect-template -n notation-cicd --param APP_NAME=${artifact} --param APP_VERSION=${version} --param IMAGE_VERSION=${image_version} | oc apply -n ${namespace_acp} -f -"
 		 setEnvVars(namespace_acp)
 }
 

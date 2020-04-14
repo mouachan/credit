@@ -12,13 +12,6 @@
   <!-- Bootstrap base + PatternFly extensions + Your styles -->
   <!-- <link rel="stylesheet" href="css/mystyles.css"> -->
 
-  <!-- JS -->
- 
-
- 
-
-
-
   <script src="node_modules/patternfly/dist/js/patternfly-settings.js"></script>
   <script src="node_modules/patternfly/dist/js/patternfly-settings-colors.js"></script>
   <script src="node_modules/patternfly/dist/js/patternfly-settings-charts.js"></script>
@@ -54,7 +47,7 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">
-        <img src="img/qlb_logo.png" alt="Kogito Loan Bank" />
+        <img src="img/b.png" alt="Kogito Loan Bank" />
       </a>
     </div>
     <div class="collapse navbar-collapse navbar-collapse-1">
@@ -151,33 +144,32 @@
         <table class="table" style="margin-bottom: 10px">
           <thead>
             <tr>
-              <th scope="col">Rcs Number</th>
+              <th scope="col">Immatriculation Date</th>
               <th scope="col">Siren</th>
               <th scope="col">Siret</th>
-
               <th scope="col">Denomination</th>
               <th scope="col">Address</th>
               <th scope="col">Type</th>
               <th scope="col">TVA</th>
-
-              <!--th scope="col">Registred on</th-->
+              <th scope="col">Revenue</th>
+              <th scope="col">Capital</th>
+              <th scope="col">Worker Number</th>
               <th scope="col">Updated on</th>
-
-
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{{company.statusRcs}}</td>
+              <td>{{company.immatriculationDate}}</td>
               <td>{{company.siren}}</td>
               <td>{{company.siret}}</td>
               <td>{{company.denomination}}</td>
               <td>{{company.address}}</td>
               <td>{{company.type}}</td>
               <td>{{company.tva}}</td>
-              <!--td>{{company.immatriculationDate}}</td-->
+              <td>{{company.capitalSocial}}</td>
+              <td>{{company.chiffreAffaire }}</td>
+              <td>{{company.trancheEffectif}}</td>
               <td>{{company.updateDate}}</td>
-
             </tr>
           </tbody>
         </table>
@@ -216,6 +208,18 @@
                   </th>
                   <th scope="col">
                     <div class="form-group">
+                      <label for="inputfl" class="col-sm-2 control-label">FL</label>
+                      <div class="col-sm-3">
+                        <input type="text" ng-model="bilan.fl" class="form-control" id="fl" placeholder="50">
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="form-group">
                       <label for="inputhp" class="col-sm-2 control-label">HP</label>
                       <div class="col-sm-3">
                         <input type="text" ng-model="bilan.hp" class="form-control" id="hp" placeholder="30">
@@ -230,26 +234,6 @@
                       </div>
                     </div>
                   </th>
-                </tr>
-              </thead>
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfl" class="col-sm-2 control-label">FL</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fl" class="form-control" id="fl" placeholder="50">
-                      </div>
-                    </div>
-                  </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfm" class="col-sm-2 control-label">FM</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fm" class="form-control" id="fm" placeholder="6">
-                      </div>
-                    </div>
-                  </th>
                   <th scope="col">
                     <div class="form-group">
                       <label for="inputhn" class="col-sm-2 control-label">HN</label>
@@ -258,97 +242,18 @@
                       </div>
                     </div>
                   </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputgg1" class="col-sm-2 control-label">GG1</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.gg1" class="form-control" id="gg1" placeholder="4">
-                      </div>
-                    </div>
-                  </th>
                 </tr>
               </thead>
               <thead>
                 <tr>
                   <th scope="col">
                     <div class="form-group">
-                      <label for="inputga1" class="col-sm-2 control-label">GA1</label>
+                      <label for="inputfm" class="col-sm-2 control-label">FM</label>
                       <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.ga1" class="form-control" id="ga1" placeholder="16">
+                        <input type="text" ng-model="bilan.fm" class="form-control" id="fm" placeholder="6">
                       </div>
                     </div>
                   </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputhp1" class="col-sm-2 control-label">HP1</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.hp1" class="form-control" id="hp1" placeholder="12">
-                      </div>
-                    </div>
-                  </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputhq1" class="col-sm-2 control-label">HQ1</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.hq1" class="form-control" id="hq1" placeholder="3">
-                      </div>
-                    </div>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfl1" class="col-sm-2 control-label">FL1</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fl1" class="form-control" id="fl1" placeholder="2">
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfm1" class="col-sm-2 control-label">FM1</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fm1" class="form-control" id="fm1" placeholder="1">
-                      </div>
-                    </div>
-                  </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfl2" class="col-sm-2 control-label">FL2</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fl2" class="form-control" id="fl2" placeholder="7">
-                      </div>
-                    </div>
-                  </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputfm2" class="col-sm-2 control-label">FM2</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.fm2" class="form-control" id="fm2" placeholder="5">
-                      </div>
-                    </div>
-                  </th>
-                  <th scope="col">
-                    <div class="form-group">
-                      <label for="inputga2" class="col-sm-2 control-label">GA2</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.ga2" class="form-control" id="ga2" placeholder="2">
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <thead>
-                <tr>
-                  <th scope="col">
-
-                    <div class="form-group">
-                      <label for="inputhn2" class="col-sm-2 control-label">HN2</label>
-                      <div class="col-sm-3">
-                        <input type="text" ng-model="bilan.hn2" class="form-control" id="hn2" placeholder="34">
-                      </div>
-                    </div>
                   <th scope="col">
                     <div class="form-group">
                       <label for="inputdl" class="col-sm-2 control-label">DL</label>

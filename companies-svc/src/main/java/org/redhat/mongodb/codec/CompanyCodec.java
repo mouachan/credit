@@ -37,6 +37,10 @@ public class CompanyCodec implements CollectibleCodec<CompanyInfo> {
         doc.put("tva", companyInfo.getTva());
         doc.put("immatriculationDate", companyInfo.getImmatriculationDate());
         doc.put("updateDate", companyInfo.getUpdateDate());
+        doc.put("capitalSocial", companyInfo.getCapitalSocial());
+        doc.put("chiffreAffaire", companyInfo.getChiffreAffaire());
+        doc.put("trancheEffectif", companyInfo.getCapitalSocial());
+
         // if(companyInfo.getNote() != null)
         //     doc.put("note",companyInfo.getNote());
         documentCodec.encode(writer, doc, encoderContext);
@@ -81,6 +85,9 @@ public class CompanyCodec implements CollectibleCodec<CompanyInfo> {
         companyInfo.setType(document.getString("type"));
         companyInfo.setUpdateDate(document.getDate("updateDate"));
         companyInfo.setImmatriculationDate(document.getDate("immatriculationDate"));
+        companyInfo.setCapitalSocial(document.getString("capitalSocial"));
+        companyInfo.setChiffreAffaire(document.getString("chiffreAffaire"));
+        companyInfo.setTrancheEffectif(document.getString("trancheEffectif"));
         // if(document.get("note") != null ){
         //     companyInfo.setNote((Notation)document.get("note"));
         // }

@@ -5,24 +5,40 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
+import org.jboss.logging.Logger;
 
 @QuarkusTest
 public class CompaniesResourceTest {
 
+  private static final Logger LOGGER = Logger.getLogger("CompaniesResourceTest");
     @Test
-    public void testFindBySiren() {
-        String expected = "{\"address\":\"8 rue rosa parks 93400 Saint Ouen\",\"denomination\":\"NANOU\",\"siren\":\"829721605\",\"siret\":\"82972160500018\",\"tva\":\"FR829721605\",\"type\":\"SA\",\"updateDate\":\"2020-04-07T22:00:00Z[UTC]\"}"; 
+    public void testFindBySiren542107651() {
+      LOGGER.info("Test FindBySiren542107651 ");
         given()
-          .when().get("/companies/search/829721605")
+          .when().get("/companies/search/542107651")
           .then()
-             .statusCode(200);
-           //   .body(is(expected));
+             .statusCode(200)
+             .body("denomination",is("ENGIE"));
     }
 
-    @Test void testUpdate(){
-        CompanyInfo companyInfo = new CompanyInfo();
-        System.out.println(companyInfo.findBySiren("829721605").toString());
+    @Test
+    public void testFindBySiren423646512() {
+      LOGGER.info("testFindBySiren423646512");
+        given()
+          .when().get("/companies/search/423646512")
+          .then()
+             .statusCode(200)
+             .body("denomination",is("FOURNIL SAINT JACQUES"));
+    }
 
+    @Test
+    public void testFindBySiren510662190() {
+      LOGGER.info("testFindBySiren510662190");
+        given()
+          .when().get("/companies/search/510662190")
+          .then()
+             .statusCode(200)
+             .body("denomination",is("ASHILEA"));
     }
 
 }
