@@ -5,3 +5,4 @@ oc new-project notation-svc-lab --display-name="Production" --description="produ
 oc new-project notation-svc-cicd --display-name="CICD" --description="CICD environment"
 oc project notation-svc-cicd 
 #oc new-app jenkins-ephemeral
+#oc create bc -f notation-svc-cicd-bc.yml
