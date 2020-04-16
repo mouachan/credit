@@ -1,0 +1,153 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: dmn-svc-template
+metadata:
+  annotations:
+    description: Template to create application with DMN service
+    iconClass: icon-rh-integration
+    openshift.io/display-name: DMN Credit Scoring SVC 
+    openshift.io/provider-display-name: Red Hat, Inc.
+    tags: quarkus,java,kogito,springboot,dmn
+    version: "1.1"
+  name: dmn-svc-template
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: ${APP_NAME}
+      deploymentconfig: ${APP_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: ${APP_NAME}
+          deploymentconfig: ${APP_NAME}
+          version: ${APP_VERSION}
+      spec:
+        containers:
+        - image: ${APP_NAME}:${IMAGE_VERSION}
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: ${HEALTHCHECK_PATH}
+              port: ${{HEALTHCHECK_PORT}}
+              scheme: HTTP
+            initialDelaySeconds: 180
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: ${APP_NAME}
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8778
+            protocol: TCP
+          resources: 
+            limits:
+              cpu: ${CPU_LIMIT}
+              memory: ${MEMORY_LIMIT}              
+            requests:
+              cpu: ${CPU_REQUEST}
+              memory: ${MEMORY_REQUEST}  
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          privileged: false
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APP_NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${APP_NAME}:latest
+          namespace: credit
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/credit/dmn-svc-notation@sha256:16a21a4da646cf9ca436c059517ba8763baf5aa87a81a477c084ca910ff599e4
+      type: ImageChange
+    - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+       description: The dmn service
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    ports:
+    - name: HTTP_PORT
+      port: 8080
+      protocol: TCP
+      targetPort: 8083
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    - name: 8778-tcp
+      port: 8778
+      protocol: TCP
+      targetPort: 8778
+    selector:
+      app: ${APP_NAME}
+      deploymentconfig: ${APP_NAME}
+parameters:
+- displayName: Application Name
+  name: APP_NAME
+  required: true
+- displayName: Application Maven Version
+  name: APP_VERSION
+  required: true
+- displayName: Application Image Version
+  name: IMAGE_VERSION
+  required: true  
+  value: "latest"
+- displayName: The path of the healthcheck for the application
+  name: HEALTHCHECK_PATH
+  required: true
+  value: /actuator/health
+- displayName: The port of the healthcheck for the application
+  name: HEALTHCHECK_PORT
+  required: true
+  value: "8180"  
+- displayName: The CPU Limit for the application
+  name: CPU_LIMIT
+  required: true
+  value: "0.5"
+- displayName: The Memory Limit for the application
+  name: MEMORY_LIMIT
+  required: true
+  value: "500M"
+- displayName: The CPU Request for the application
+  name: CPU_REQUEST
+  required: true
+  value: "0.2"
+- displayName: The Memory Request for the application
+  name: MEMORY_REQUEST
+  required: true
+  value: "150M"
+

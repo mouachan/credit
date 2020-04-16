@@ -38,7 +38,6 @@ def setEnvVars(namespace){
         var1='balbal'
     }
     sh "oc set env -n ${namespace} dc/dmn-svc-notation VAR1=${var1}"
-  
 }
 
 node('maven') {
