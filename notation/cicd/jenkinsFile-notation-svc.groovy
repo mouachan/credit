@@ -9,9 +9,9 @@
   def version = "1.0.0"
   def contextDirPath = "notation/dmn-svc-notation"
 // namespaces
-def namespace_dev = "credit-dev"
-def namespace_acp = "credit-acp"
-def namespace_prd = "credit-prd"		
+def namespace_dev = "notation-svc-dev"
+def namespace_acp = "notation-svc-acp"
+def namespace_prd = "notation-svc-prd"		
 def appname = "dmn-svc-notation"
 def image_version = "1.0.0"
 def registry = "docker-registry.default.svc:5000"
